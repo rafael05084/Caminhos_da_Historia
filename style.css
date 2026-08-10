@@ -364,10 +364,8 @@ body.auth-page > * {
 
 /* ---------- Botão de voltar ao início ---------- */
 .auth-back {
-    position: fixed;
-    top: 28px;
-    left: 32px;
-    z-index: 5;
+    display: inline-block;
+    margin-top: 28px;
     text-decoration: none;
 }
 
@@ -396,7 +394,7 @@ body.auth-page > * {
 
 .auth-hero-text h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.6rem;
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
     font-weight: 700;
     color: var(--branco);
     line-height: 1.2;
@@ -421,14 +419,14 @@ body.auth-page > * {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 500;
-    font-size: 1.6rem;
+    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
     color: var(--cinza-claro);
     margin-bottom: 24px;
 }
 
 .auth-hero-text p:not(.subtitle) {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 1vw, 1rem);
     font-weight: 300;
     line-height: 1.85;
     color: var(--cinza-claro);
@@ -446,7 +444,7 @@ body.auth-page > * {
 .auth-card h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 1.6vw, 1.5rem);
     color: var(--branco);
     margin-bottom: 4px;
 }
@@ -473,7 +471,7 @@ body.auth-page > * {
     padding: 12px 20px;
     color: var(--branco);
     font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 0.95vw, 0.9rem);
 }
 
 .auth-card form input::placeholder {
@@ -496,7 +494,7 @@ body.auth-page > * {
     padding: 12px 28px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 0.95vw, 0.9rem);
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }

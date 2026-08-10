@@ -27,16 +27,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body class="auth-page">
-
-    <a href="index.html" class="auth-back"><button type="button">&larr; Início</button></a>
 
     <div class="auth-hero-text">
         <h2>A memória de Uruguaiana</h2>
         <p class="subtitle">ao alcance de todos</p>
         <p>Explore monumentos, espaços históricos e locais que tiveram a sua história construída ao decorrer das gerações e ajude a reconstruir a história e memória local.</p>
+
+        <a href="index.html" class="auth-back"><button type="button">&larr; Início</button></a>
     </div>
 
     <div class="auth-card">
