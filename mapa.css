@@ -1,0 +1,252 @@
+/* =============================================
+   Caminhos da História - Uruguaiana
+   mapa.css — Mapa Histórico Interativo
+   ============================================= */
+
+body.mapa-page {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--azul-escuro, #0d1e3d);
+    color: #fff;
+}
+
+/* ---------- Cabeçalho ---------- */
+.mapa-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background-color: #0d1e3d;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.mapa-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.mapa-header .mapa-sub {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+}
+
+.mapa-voltar {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color .2s ease;
+}
+
+.mapa-voltar:hover {
+    background-color: rgba(255,255,255,0.12);
+}
+
+/* ---------- Barra de pesquisa e filtros ---------- */
+.mapa-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 32px;
+    background-color: #132447;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+#pesquisa-local {
+    flex: 0 1 320px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    background-color: #0d1e3d;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+#pesquisa-local::placeholder {
+    color: rgba(255,255,255,0.55);
+}
+
+.mapa-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filtro-btn {
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+.filtro-btn:hover {
+    border-color: #fff;
+}
+
+.filtro-btn.ativo {
+    background-color: #C0392B;
+    border-color: #C0392B;
+}
+
+/* ---------- Mapa ---------- */
+#mapa {
+    width: 100%;
+    height: calc(100vh - 140px);
+    min-height: 420px;
+    background-color: #e8dcc8;
+}
+
+/* ---------- Popup Leaflet customizado ---------- */
+.leaflet-popup-content-wrapper {
+    background-color: #132447;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.leaflet-popup-tip {
+    background-color: #132447;
+}
+
+.popup-local h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    margin: 0 0 6px 0;
+}
+
+.popup-local .popup-categoria {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #f2b6ab;
+    margin-bottom: 8px;
+}
+
+.popup-local p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+    margin: 0 0 10px 0;
+}
+
+.popup-local button {
+    background-color: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.popup-local button:hover {
+    background-color: #a93226;
+}
+
+/* ---------- Modal de detalhes ---------- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.modal-overlay.aberto {
+    display: flex;
+}
+
+.modal-box {
+    background-color: #0d1e3d;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 32px;
+    position: relative;
+}
+
+.modal-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+
+.modal-box .modal-categoria {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #f2b6ab;
+    margin-bottom: 18px;
+}
+
+.modal-box h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.55);
+    margin: 18px 0 6px 0;
+}
+
+.modal-box p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.9);
+}
+
+.modal-fechar {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 700px) {
+    .mapa-header, .mapa-toolbar {
+        padding: 12px 16px;
+    }
+
+    .mapa-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #pesquisa-local {
+        flex: none;
+        width: 100%;
+    }
+
+    #mapa {
+        height: calc(100vh - 190px);
+    }
+}
