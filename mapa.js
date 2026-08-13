@@ -32,8 +32,21 @@ function carregarLocais() {
 function criarMarcador(local) {
     const marker = L.marker([local.latitude, local.longitude]).addTo(mapa);
 
+    // Nome do local sempre visível embaixo do marcador
+    marker.bindTooltip(local.nome, {
+        permanent: true,
+        direction: 'bottom',
+        offset: [0, 8],
+        className: 'marcador-label'
+    });
+
+    const imagemHtml = local.imagem
+        ? `<img src="${local.imagem}" class="popup-imagem" alt="${local.nome}">`
+        : '';
+
     const popupHtml = `
         <div class="popup-local">
+            ${imagemHtml}
             <span class="popup-categoria">${local.categoria}</span>
             <h3>${local.nome}</h3>
             <p>${local.descricao}</p>
@@ -80,11 +93,14 @@ function filtrarCategoria(categoria) {
 }
 
 // ---------- Modal de detalhes ----------
+let localAtualId = null;
+
 function abrirModal(id) {
     const item = marcadores.find(m => m.dados.id == id);
     if (!item) return;
 
     const local = item.dados;
+    localAtualId = local.id;
 
     document.getElementById('modal-categoria').textContent = local.categoria;
     document.getElementById('modal-nome').textContent = local.nome;
@@ -93,11 +109,84 @@ function abrirModal(id) {
     document.getElementById('modal-periodo').textContent = local.periodo_historico || 'Não informado';
     document.getElementById('modal-curiosidades').textContent = local.curiosidades || 'Sem curiosidades registradas.';
 
+    // Imagem principal no modal
+    const modalImagem = document.getElementById('modal-imagem');
+    if (local.imagem) {
+        modalImagem.src = local.imagem;
+        modalImagem.style.display = 'block';
+    } else {
+        modalImagem.style.display = 'none';
+    }
+
+    montarLinhaDoTempo(local.linha_do_tempo || []);
+    montarCausos(local.causos || []);
+
+    document.getElementById('modal-enviar-causo').href = 'enviar-causo.php?local_id=' + local.id;
+
     document.getElementById('modal-overlay').classList.add('aberto');
 }
 
 function fecharModal() {
     document.getElementById('modal-overlay').classList.remove('aberto');
+}
+
+// ---------- Linha do tempo (imagens por período) ----------
+function montarLinhaDoTempo(imagens) {
+    const container = document.getElementById('modal-timeline');
+    const foto = document.getElementById('modal-timeline-foto');
+    const legenda = document.getElementById('modal-timeline-legenda');
+
+    container.innerHTML = '';
+
+    if (!imagens.length) {
+        document.getElementById('modal-timeline-wrap').style.display = 'none';
+        return;
+    }
+
+    document.getElementById('modal-timeline-wrap').style.display = 'block';
+
+    imagens.forEach((img, index) => {
+        const tab = document.createElement('button');
+        tab.className = 'timeline-tab' + (index === 0 ? ' ativo' : '');
+        tab.textContent = img.periodo;
+        tab.onclick = () => selecionarPeriodo(imagens, index);
+        container.appendChild(tab);
+    });
+
+    selecionarPeriodo(imagens, 0);
+}
+
+function selecionarPeriodo(imagens, index) {
+    const img = imagens[index];
+
+    document.querySelectorAll('.timeline-tab').forEach((tab, i) => {
+        tab.classList.toggle('ativo', i === index);
+    });
+
+    document.getElementById('modal-timeline-foto').src = img.imagem;
+    document.getElementById('modal-timeline-legenda').textContent = img.legenda || img.periodo;
+}
+
+// ---------- Causos aprovados ----------
+function montarCausos(causos) {
+    const lista = document.getElementById('modal-causos-lista');
+    lista.innerHTML = '';
+
+    if (!causos.length) {
+        lista.innerHTML = '<p class="sem-causos">Nenhum causo enviado para este local ainda.</p>';
+        return;
+    }
+
+    causos.forEach(causo => {
+        const item = document.createElement('div');
+        item.className = 'causo-modal-item';
+        item.innerHTML = `
+            <strong>${causo.titulo}</strong>
+            <p>${causo.texto}</p>
+            <span class="causo-modal-autor">por ${causo.autor}</span>
+        `;
+        lista.appendChild(item);
+    });
 }
 
 // ---------- Eventos ----------

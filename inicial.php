@@ -28,11 +28,12 @@ if(isset($_SESSION['usuario'])){
 <body class="mapa-page">
 
     <header class="mapa-header">
-        <div>
+        <a href="index.html" class="mapa-voltar">&larr; Início</a>
+
+        <div class="mapa-titulo-wrap">
             <h1>Caminhos da História</h1>
             <span class="mapa-sub">Mapa Histórico — Uruguaiana</span>
         </div>
-        <a href="index.html" class="mapa-voltar">&larr; Início</a>
     </header>
 
     <div class="mapa-toolbar">
@@ -42,11 +43,14 @@ if(isset($_SESSION['usuario'])){
             <button class="filtro-btn ativo" data-categoria="Todos">Todos</button>
             <button class="filtro-btn" data-categoria="Patrimônio Histórico">Patrimônio Histórico</button>
             <button class="filtro-btn" data-categoria="Patrimônio Religioso">Patrimônio Religioso</button>
+            <button class="filtro-btn" data-categoria="Patrimônios Imateriais">Patrimônios Imateriais</button>
             <button class="filtro-btn" data-categoria="Cultura">Cultura</button>
             <button class="filtro-btn" data-categoria="Tradição Gaúcha">Tradição Gaúcha</button>
             <button class="filtro-btn" data-categoria="Turismo">Turismo</button>
             <button class="filtro-btn" data-categoria="Integração Regional">Integração Regional</button>
         </div>
+
+        <a href="enviar-causo.php" class="mapa-voltar" style="white-space:nowrap;">+ Enviar um causo</a>
     </div>
 
     <div id="mapa"></div>
@@ -55,6 +59,9 @@ if(isset($_SESSION['usuario'])){
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-box">
             <button class="modal-fechar" id="modal-fechar">&times;</button>
+
+            <img id="modal-imagem" src="" alt="" style="display:none;">
+
             <span class="modal-categoria" id="modal-categoria"></span>
             <h2 id="modal-nome"></h2>
 
@@ -69,6 +76,17 @@ if(isset($_SESSION['usuario'])){
 
             <h4>Curiosidades</h4>
             <p id="modal-curiosidades"></p>
+
+            <div id="modal-timeline-wrap">
+                <h4>Linha do tempo</h4>
+                <div class="timeline-tabs" id="modal-timeline"></div>
+                <img id="modal-timeline-foto" src="" alt="">
+                <div id="modal-timeline-legenda"></div>
+            </div>
+
+            <h4>Causos e memórias</h4>
+            <div id="modal-causos-lista"></div>
+            <a href="enviar-causo.php" id="modal-enviar-causo" class="modal-enviar-causo">+ Contar um causo sobre este local</a>
         </div>
     </div>
 

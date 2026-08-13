@@ -21,6 +21,10 @@ body.mapa-page {
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
+.mapa-titulo-wrap {
+    text-align: right;
+}
+
 .mapa-header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 1.2rem;
@@ -228,6 +232,122 @@ body.mapa-page {
     color: #fff;
     font-size: 1.3rem;
     cursor: pointer;
+}
+
+/* ---------- Nome do local sob o marcador ---------- */
+.marcador-label {
+    background-color: rgba(13, 30, 61, 0.85);
+    border: none;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.marcador-label::before {
+    display: none;
+}
+
+/* ---------- Imagem no popup ---------- */
+.popup-imagem {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* ---------- Imagem no modal ---------- */
+#modal-imagem {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+
+/* ---------- Link "enviar causo" no modal ---------- */
+.modal-enviar-causo {
+    display: inline-block;
+    margin-top: 6px;
+    color: #f2b6ab;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.modal-enviar-causo:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Linha do tempo no modal ---------- */
+#modal-timeline-wrap {
+    margin-top: 10px;
+}
+
+.timeline-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.timeline-tab {
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.timeline-tab.ativo {
+    background-color: #C0392B;
+    border-color: #C0392B;
+}
+
+#modal-timeline-foto {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+#modal-timeline-legenda {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* ---------- Causos no modal ---------- */
+.causo-modal-item {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 0;
+}
+
+.causo-modal-item strong {
+    font-size: 0.88rem;
+}
+
+.causo-modal-item p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    margin: 4px 0;
+}
+
+.causo-modal-autor {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+}
+
+.sem-causos {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
 }
 
 /* ---------- Responsivo ---------- */
