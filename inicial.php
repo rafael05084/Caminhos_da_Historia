@@ -5,7 +5,7 @@ if(isset($_SESSION['usuario'])){
     // continua a execução, a página é exibida abaixo
 }else{
    header("Location: login.php");
-        exit('ACESSO NEGADO');
+   exit('ACESSO NEGADO');
 }
 
 ?>
@@ -22,8 +22,17 @@ if(isset($_SESSION['usuario'])){
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mapa.css">
+    
+    <!-- Links para a pasta css/ -->
+    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/mapa.css?v=<?php echo time(); ?>">
+
+    <style>
+        <?php 
+            if (file_exists("css/style.css")) { include "css/style.css"; }
+            if (file_exists("css/mapa.css")) { include "css/mapa.css"; }
+        ?>
+    </style>
 </head>
 <body class="mapa-page">
 
