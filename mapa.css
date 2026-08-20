@@ -139,7 +139,7 @@ body.mapa-page {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #f2b6ab;
+    font-weight: 700;
     margin-bottom: 8px;
 }
 
@@ -234,17 +234,25 @@ body.mapa-page {
     cursor: pointer;
 }
 
-/* ---------- Nome do local sob o marcador ---------- */
-.marcador-label {
-    background-color: rgba(13, 30, 61, 0.85);
+/* ---------- Pin customizado (SVG) ---------- */
+.pin-icone {
+    background: transparent;
     border: none;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,0.45));
+}
+
+/* ---------- Nome do local sob o marcador (estilo balão) ---------- */
+.marcador-label {
+    background-color: #0d1e3d;
+    border: 2px solid #1a3766;
     color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
-    box-shadow: none;
+    font-family: 'Playfair Display', 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 999px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+    white-space: nowrap;
 }
 
 .marcador-label::before {

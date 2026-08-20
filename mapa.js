@@ -7,6 +7,41 @@ let mapa;
 let marcadores = []; // { marker, dados }
 let categoriaAtiva = "Todos";
 
+// Cor do pin por categoria (mesmo espírito visual do mapa ilustrado de referência)
+const coresCategoria = {
+    'Patrimônio Histórico':    '#c9a227',
+    'Patrimônio Religioso':    '#e0a83e',
+    'Patrimônios Imateriais':  '#8e44ad',
+    'Cultura':                 '#2c2c2c',
+    'Tradição Gaúcha':         '#C0392B',
+    'Turismo':                 '#27ae60',
+    'Integração Regional':     '#3498db'
+};
+
+function corDaCategoria(categoria) {
+    return coresCategoria[categoria] || '#C0392B';
+}
+
+// Cria um ícone de pin em SVG na cor da categoria
+function criarIconePin(cor) {
+    const svg = `
+        <svg width="34" height="44" viewBox="0 0 40 52" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2C10.6 2 3 9.6 3 19c0 13 17 31 17 31s17-18 17-31C37 9.6 29.4 2 20 2z"
+                  fill="${cor}" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+            <circle cx="20" cy="19" r="7.5" fill="#ffffff"/>
+        </svg>
+    `;
+
+    return L.divIcon({
+        html: svg,
+        className: 'pin-icone',
+        iconSize: [34, 44],
+        iconAnchor: [17, 44],
+        popupAnchor: [0, -40],
+        tooltipAnchor: [0, 4]
+    });
+}
+
 function iniciarMapa() {
     mapa = L.map('mapa').setView([-29.7555, -57.0878], 14);
 
@@ -30,13 +65,16 @@ function carregarLocais() {
 }
 
 function criarMarcador(local) {
-    const marker = L.marker([local.latitude, local.longitude]).addTo(mapa);
+    const cor = corDaCategoria(local.categoria);
+    const icone = criarIconePin(cor);
 
-    // Nome do local sempre visível embaixo do marcador
+    const marker = L.marker([local.latitude, local.longitude], { icon: icone }).addTo(mapa);
+
+    // Nome do local sempre visível embaixo do marcador, no estilo "etiqueta"
     marker.bindTooltip(local.nome, {
         permanent: true,
         direction: 'bottom',
-        offset: [0, 8],
+        offset: [0, 6],
         className: 'marcador-label'
     });
 
@@ -47,7 +85,7 @@ function criarMarcador(local) {
     const popupHtml = `
         <div class="popup-local">
             ${imagemHtml}
-            <span class="popup-categoria">${local.categoria}</span>
+            <span class="popup-categoria" style="color:${cor};">${local.categoria}</span>
             <h3>${local.nome}</h3>
             <p>${local.descricao}</p>
             <button onclick="abrirModal(${local.id})">Ver história</button>
@@ -133,9 +171,6 @@ function fecharModal() {
 // ---------- Linha do tempo (imagens por período) ----------
 function montarLinhaDoTempo(imagens) {
     const container = document.getElementById('modal-timeline');
-    const foto = document.getElementById('modal-timeline-foto');
-    const legenda = document.getElementById('modal-timeline-legenda');
-
     container.innerHTML = '';
 
     if (!imagens.length) {
