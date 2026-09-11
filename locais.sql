@@ -81,7 +81,7 @@ VALUES
   'Sociedade Beneficente União Filhos do Trabalho (SBU)',
   'Primeiro clube social negro de Uruguaiana.',
   'Fundada em 1925, a Sociedade Beneficente União Filhos do Trabalho foi o primeiro clube social negro de Uruguaiana, criado em resposta à exclusão do pós-Abolição. Operando com base no mutualismo, garantia suporte comunitário e auxílio financeiro aos associados, além de ser o berço do carnaval local. Embora sua sede física tenha sido demolida, permanece como um valioso patrimônio imaterial da cidade.',
-  'Patrimônio Histórico',
+  'Patrimônio Imaterial',
   -29.75800000, -57.09550000,
   'Século XX',
   'Prazos e Normas no "Livro Preto": Exigia rigoroso cumprimento das mensalidades para garantir os benefícios de auxílio e funeral.\n\nResistência e Bipartição: Ocupou o papel de centro cultural da cidade diante da segregação nos clubes de elite.\n\nSignificado do Nome: Expressava o orgulho operário e a união pela dignidade do trabalho pós-escravidão.\n\nPatrimônio Sem Parede: Preservado na memória histórica e na literatura acadêmica mesmo após a demolição do prédio.\n\nSemente do Carnaval: Os blocos organizados no clube serviram de base para as primeiras escolas de samba de Uruguaiana.',
