@@ -142,38 +142,19 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Locais - Caminhos da História</title>
-    
-    <!-- Importação de fontes externas do Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Chamada do CSS externo com parâmetro de quebra de cache -->
-    <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
-
-    <!-- Injeção direta como plano de contingência para servidor local -->
-    <style>
-        <?php 
-            if (file_exists("css/admin.css")) {
-                include "css/admin.css"; 
-            }
-        ?>
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css?v=1">
 </head>
 <body class="admin-page">
 
     <header class="admin-header">
         <div>
-            <h1>Administrar Locais</h1>
+            <h1>Área do Administrador</h1>
             <span class="admin-sub">Caminhos da História — Uruguaiana</span>
         </div>
-        <nav class="admin-nav">
-            <a href="inicial.php">Ver mapa</a>
-            <a href="admin-causos.php">Causos</a>
-            <a href="admin.php">Usuários</a>
-        </nav>
+        <a href="logout.php" class="admin-nav-sair">Sair</a>
     </header>
 
     <main class="admin-main">
@@ -187,11 +168,11 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
                     <input type="hidden" name="id" value="<?php echo $localEdicao['id']; ?>">
                 <?php endif; ?>
 
-                <input type="text" name="nome" placeholder="Nome do local" value="<?php echo htmlspecialchars($localEdicao['nome'] ?? ''); ?>" required>
+                <input type="text" name="nome" placeholder="Nome do local" value="<?php echo $localEdicao['nome'] ?? ''; ?>" required>
 
-                <textarea name="descricao" placeholder="Descrição breve" rows="2" required><?php echo htmlspecialchars($localEdicao['descricao'] ?? ''); ?></textarea>
+                <textarea name="descricao" placeholder="Descrição breve" rows="2" required><?php echo $localEdicao['descricao'] ?? ''; ?></textarea>
 
-                <textarea name="historia" placeholder="História completa" rows="4"><?php echo htmlspecialchars($localEdicao['historia'] ?? ''); ?></textarea>
+                <textarea name="historia" placeholder="História completa" rows="4"><?php echo $localEdicao['historia'] ?? ''; ?></textarea>
 
                 <select name="categoria" required>
                     <?php foreach ($categorias as $cat):
@@ -201,20 +182,20 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
                     <?php endforeach; ?>
                 </select>
 
-                <input type="text" name="latitude" placeholder="Latitude (ex: -29.7555)" value="<?php echo htmlspecialchars($localEdicao['latitude'] ?? ''); ?>" required>
-                <input type="text" name="longitude" placeholder="Longitude (ex: -57.0878)" value="<?php echo htmlspecialchars($localEdicao['longitude'] ?? ''); ?>" required>
+                <input type="text" name="latitude" placeholder="Latitude (ex: -29.7555)" value="<?php echo $localEdicao['latitude'] ?? ''; ?>" required>
+                <input type="text" name="longitude" placeholder="Longitude (ex: -57.0878)" value="<?php echo $localEdicao['longitude'] ?? ''; ?>" required>
 
-                <input type="text" name="periodo_historico" placeholder="Período histórico" value="<?php echo htmlspecialchars($localEdicao['periodo_historico'] ?? ''); ?>">
+                <input type="text" name="periodo_historico" placeholder="Período histórico" value="<?php echo $localEdicao['periodo_historico'] ?? ''; ?>">
 
-                <textarea name="curiosidades" placeholder="Curiosidades" rows="2"><?php echo htmlspecialchars($localEdicao['curiosidades'] ?? ''); ?></textarea>
+                <textarea name="curiosidades" placeholder="Curiosidades" rows="2"><?php echo $localEdicao['curiosidades'] ?? ''; ?></textarea>
 
-                <textarea name="importancia" placeholder="Importância para Uruguaiana" rows="2"><?php echo htmlspecialchars($localEdicao['importancia'] ?? ''); ?></textarea>
+                <textarea name="importancia" placeholder="Importância para Uruguaiana" rows="2"><?php echo $localEdicao['importancia'] ?? ''; ?></textarea>
 
                 <label style="font-size:0.85rem; color:rgba(255,255,255,0.7);">Imagem principal do local</label>
                 <input type="file" name="imagem_upload" accept=".jpg,.jpeg,.png,.webp">
 
                 <?php if (!empty($localEdicao['imagem'])): ?>
-                    <img src="<?php echo htmlspecialchars($localEdicao['imagem']); ?>" class="admin-img-preview" alt="Imagem atual">
+                    <img src="<?php echo $localEdicao['imagem']; ?>" class="admin-img-preview" alt="Imagem atual">
                 <?php endif; ?>
 
                 <button type="submit"><?php echo $localEdicao ? 'Salvar alterações' : 'Cadastrar local'; ?></button>
@@ -223,7 +204,7 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
 
         <?php if ($localEdicao): ?>
         <section class="admin-card">
-            <h2>Linha do tempo de "<?php echo htmlspecialchars($localEdicao['nome']); ?>"</h2>
+            <h2>Linha do tempo de "<?php echo $localEdicao['nome']; ?>"</h2>
 
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="acao" value="adicionar_timeline">
@@ -243,10 +224,10 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
 
                 <?php foreach ($timelineLocal as $img): ?>
                     <div class="timeline-admin-item">
-                        <img src="<?php echo htmlspecialchars($img['imagem']); ?>" alt="<?php echo htmlspecialchars($img['periodo']); ?>">
+                        <img src="<?php echo $img['imagem']; ?>" alt="<?php echo $img['periodo']; ?>">
                         <div class="timeline-info">
-                            <div class="timeline-periodo"><?php echo htmlspecialchars($img['periodo']); ?></div>
-                            <div class="timeline-legenda"><?php echo htmlspecialchars($img['legenda']); ?></div>
+                            <div class="timeline-periodo"><?php echo $img['periodo']; ?></div>
+                            <div class="timeline-legenda"><?php echo $img['legenda']; ?></div>
                         </div>
                         <a href="admin-locais.php?excluir_timeline=<?php echo $img['id']; ?>&local_id=<?php echo $localEdicao['id']; ?>">Excluir</a>
                     </div>
@@ -258,25 +239,21 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
         <section class="admin-card">
             <h2>Locais cadastrados</h2>
             <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Categoria</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($local = mysqli_fetch_assoc($resLocais)): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($local['nome']); ?></td>
-                        <td><?php echo htmlspecialchars($local['categoria']); ?></td>
-                        <td>
-                            <a href="admin-locais.php?editar=<?php echo $local['id']; ?>">Editar</a> |
-                            <a href="admin-locais.php?excluir=<?php echo $local['id']; ?>">Excluir</a>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
+                <tr>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Ação</th>
+                </tr>
+                <?php while ($local = mysqli_fetch_assoc($resLocais)): ?>
+                <tr>
+                    <td><?php echo $local['nome']; ?></td>
+                    <td><?php echo $local['categoria']; ?></td>
+                    <td>
+                        <a href="admin-locais.php?editar=<?php echo $local['id']; ?>">Editar</a> |
+                        <a href="admin-locais.php?excluir=<?php echo $local['id']; ?>">Excluir</a>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
             </table>
         </section>
 

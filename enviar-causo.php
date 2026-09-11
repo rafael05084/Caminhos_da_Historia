@@ -3,41 +3,55 @@ session_start();
 require "conecta.php";
 
 if (!isset($_SESSION['usuario'])) {
-    header("Location:login.php");
+    header("Location: login.php");
     exit;
 }
 
 $mensagem = "";
+
+// 1. Identifica se veio um local_id pré-selecionado via GET
 $localPreSelecionado = isset($_GET['local_id']) ? (int)$_GET['local_id'] : null;
 $nomeLocalFixo = "";
 
-// Se já veio um local_id, busca o nome dele direto no topo
 if ($localPreSelecionado) {
-    $resFixo = mysqli_query($conexao, "SELECT nome FROM locais WHERE id = $localPreSelecionado");
+    // Busca o nome do local fixo
+    $stmtFixo = mysqli_prepare($conexao, "SELECT nome FROM locais WHERE id = ?");
+    mysqli_stmt_bind_param($stmtFixo, "i", $localPreSelecionado);
+    mysqli_stmt_execute($stmtFixo);
+    $resFixo = mysqli_stmt_get_result($stmtFixo);
+
     if ($dadosFixo = mysqli_fetch_assoc($resFixo)) {
         $nomeLocalFixo = $dadosFixo['nome'];
+    } else {
+        // Se o id passado não existir no banco, cancela a pré-seleção
+        $localPreSelecionado = null;
     }
 }
 
-// Se não veio local_id, carrega a lista para o select
+// 2. Se não houver local pré-selecionado válido, busca a lista completa para o <select>
 if (!$localPreSelecionado) {
     $resLocais = mysqli_query($conexao, "SELECT id, nome FROM locais ORDER BY nome ASC");
 }
 
+// 3. Processamento do formulário POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $local_id = (int) $_POST['local_id'];
-    $titulo = $_POST['titulo'];
-    $texto = $_POST['texto'];
-    $usuario_id = $_SESSION['id'];
+    $titulo = trim($_POST['titulo']);
+    $texto = trim($_POST['texto']);
+    $usuario_id = (int) $_SESSION['id'];
 
-    $sql = "INSERT INTO causos (local_id, usuario_id, titulo, texto, status)
-            VALUES ($local_id, $usuario_id, '$titulo', '$texto', 'pendente')";
-    $resultado = mysqli_query($conexao, $sql);
+    if (!empty($local_id) && !empty($titulo) && !empty($texto)) {
+        // Uso de Prepared Statement para prevenir SQL Injection
+        $stmt = mysqli_prepare($conexao, "INSERT INTO causos (local_id, usuario_id, titulo, texto, status) VALUES (?, ?, ?, ?, 'pendente')");
+        mysqli_stmt_bind_param($stmt, "iiss", $local_id, $usuario_id, $titulo, $texto);
 
-    if ($resultado) {
-        $mensagem = "Seu causo foi enviado! Ele ficará visível no mapa assim que um moderador aprovar.";
+        if (mysqli_stmt_execute($stmt)) {
+            $mensagem = "Seu causo foi enviado! Ele ficará visível no mapa assim que um moderador aprovar.";
+        } else {
+            $mensagem = "Não foi possível enviar o causo: " . mysqli_error($conexao);
+        }
     } else {
-        $mensagem = "Não foi possível enviar o causo: " . mysqli_error($conexao);
+        $mensagem = "Por favor, preencha todos os campos obrigatórios.";
     }
 }
 ?>
@@ -52,7 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/style.css?v=6">
+
     <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
 
     <style>
@@ -77,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Enviar causo</h1>
 
             <?php if ($mensagem): ?>
-                <p class="admin-msg"><?php echo $mensagem; ?></p>
+                <p class="admin-msg"><?php echo htmlspecialchars($mensagem); ?></p>
             <?php endif; ?>
 
             <?php if ($localPreSelecionado): ?>
@@ -88,11 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php else: ?>
                 <select name="local_id" required>
                     <option value="">Selecione o local...</option>
-                    <?php while ($local = mysqli_fetch_assoc($resLocais)): ?>
-                        <option value="<?php echo $local['id']; ?>">
-                            <?php echo htmlspecialchars($local['nome']); ?>
-                        </option>
-                    <?php endwhile; ?>
+                    <?php if (isset($resLocais)): ?>
+                        <?php while ($local = mysqli_fetch_assoc($resLocais)): ?>
+                            <option value="<?php echo $local['id']; ?>">
+                                <?php echo htmlspecialchars($local['nome']); ?>
+                            </option>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </select>
             <?php endif; ?>
 

@@ -32,46 +32,32 @@ if (isset($_GET['remover'])) {
 
 $sqlMod = "SELECT * FROM usuarios WHERE nivel = 'moderador'";
 $resMod = mysqli_query($conexao, $sqlMod);
-
 $sqlUsu = "SELECT * FROM usuarios WHERE nivel = 'comum'";
 $resUsu = mysqli_query($conexao, $sqlUsu);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administração</title>
-    
-    <!-- Importação de fontes do Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    
-    <!-- Chamada do arquivo CSS dentro da pasta 'css/' -->
-    <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Injeção direta como plano de contingência caso o servidor Wamp bloqueie o arquivo externo -->
-    <style>
-        <?php 
-            if (file_exists("css/admin.css")) {
-                include "css/admin.css"; 
-            }
-        ?>
-    </style>
+    <link rel="stylesheet" href="../css/admin.css">
+
 </head>
 <body class="admin-page">
-<header class="admin-header">
-    <div>
-        <h1>Área do Administrador</h1>
-        <span class="admin-sub">Caminhos da História — Uruguaiana</span>
-    </div>
-    <nav class="admin-nav">
-        <!-- Adicionado ../ para voltar da pasta admin/ para a raiz -->
-        <a href="../index.html">Sair</a>
-    </nav>
-</header>
+
+    <header class="admin-header">
+        <div>
+            <h1>Área do Administrador</h1>
+            <span class="admin-sub">Caminhos da História — Uruguaiana</span>
+        </div>
+        <a href="../logout.php" class="admin-nav-sair">Sair</a>
+    </header>
 
     <main class="admin-main">
 
@@ -93,44 +79,36 @@ $resUsu = mysqli_query($conexao, $sqlUsu);
         <section class="admin-card">
             <h2>Moderadores</h2>
             <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Usuário</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($mod = mysqli_fetch_assoc($resMod)): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($mod['nome']); ?></td>
-                        <td><?php echo htmlspecialchars($mod['usuario']); ?></td>
-                        <td><a href="admin.php?remover=<?php echo $mod['id']; ?>">Remover</a></td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
+                <tr>
+                    <th>Nome</th>
+                    <th>Usuário</th>
+                    <th>Ação</th>
+                </tr>
+                <?php while ($mod = mysqli_fetch_assoc($resMod)): ?>
+                <tr>
+                    <td><?php echo $mod['nome']; ?></td>
+                    <td><?php echo $mod['usuario']; ?></td>
+                    <td><a href="admin.php?remover=<?php echo $mod['id']; ?>">Remover</a></td>
+                </tr>
+                <?php endwhile; ?>
             </table>
         </section>
 
         <section class="admin-card">
             <h2>Usuários</h2>
             <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Usuário</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($usu = mysqli_fetch_assoc($resUsu)): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($usu['nome']); ?></td>
-                        <td><?php echo htmlspecialchars($usu['usuario']); ?></td>
-                        <td><a href="admin.php?remover=<?php echo $usu['id']; ?>">Remover</a></td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
+                <tr>
+                    <th>Nome</th>
+                    <th>Usuário</th>
+                    <th>Ação</th>
+                </tr>
+                <?php while ($usu = mysqli_fetch_assoc($resUsu)): ?>
+                <tr>
+                    <td><?php echo $usu['nome']; ?></td>
+                    <td><?php echo $usu['usuario']; ?></td>
+                    <td><a href="admin.php?remover=<?php echo $usu['id']; ?>">Remover</a></td>
+                </tr>
+                <?php endwhile; ?>
             </table>
         </section>
 

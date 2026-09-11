@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location:admin/admin.php");
                 break;
             case 'moderador':
-                header("Location:inicial.php");
+                header("Location:admin-causos.php");
                 break;
             case 'comum':
                 header("Location:inicial.php");
@@ -52,22 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Link para a nova pasta css/ -->
-    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
-
-    <style>
-        <?php 
-            if (file_exists("css/style.css")) {
-                include "css/style.css"; 
-            }
-        ?>
-    </style>
+    <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 <body class="auth-page">
 
