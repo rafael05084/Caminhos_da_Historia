@@ -10,12 +10,9 @@ let categoriaAtiva = "Todos";
 // Cor do pin por categoria (mesmo espírito visual do mapa ilustrado de referência)
 const coresCategoria = {
     'Patrimônio Histórico':    '#c9a227',
-    'Patrimônio Religioso':    '#e0a83e',
     'Patrimônios Imateriais':  '#8e44ad',
-    'Cultura':                 '#2c2c2c',
-    'Tradição Gaúcha':         '#C0392B',
-    'Turismo':                 '#27ae60',
-    'Integração Regional':     '#3498db'
+    'Cultura':                 '#328818',
+    'Integração Regional':    ' #2874A6'
 };
 
 function corDaCategoria(categoria) {

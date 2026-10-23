@@ -131,7 +131,7 @@ if (isset($_GET['editar'])) {
     }
 }
 
-$categorias = ['Patrimônio Histórico', 'Patrimônio Religioso', 'Patrimônios Imateriais', 'Cultura', 'Tradição Gaúcha', 'Turismo', 'Integração Regional'];
+$categorias = ['Patrimônio Histórico', 'Patrimônios Imateriais', 'Cultura', 'Integração Regional'];
 
 $sqlLocais = "SELECT * FROM locais ORDER BY nome ASC";
 $resLocais = mysqli_query($conexao, $sqlLocais);

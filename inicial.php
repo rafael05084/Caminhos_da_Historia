@@ -52,6 +52,8 @@ if(isset($_SESSION['usuario'])){
             <button class="filtro-btn ativo" data-categoria="Todos">Todos</button>
             <button class="filtro-btn" data-categoria="Patrimônio Histórico">Patrimônio Histórico</button>
             <button class="filtro-btn" data-categoria="Patrimônios Imateriais">Patrimônios Imateriais</button>
+            <button class="filtro-btn" data-categoria="Cultura">Cultura</button>
+            <button class="filtro-btn" data-categoria="Integração Regional">Integração Regional</button>
         </div>
 
         <a href="enviar-causo.php" class="mapa-voltar" style="white-space:nowrap;">+ Enviar um causo</a>
