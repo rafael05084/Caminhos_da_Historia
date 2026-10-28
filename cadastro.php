@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         ?>
     </style>
 </head>
-<body class="auth-page">
+<body class="auth-page" style="background-image: url('css/fundo.png');">
 
     <div class="auth-hero-text">
         <h2>A memória de Uruguaiana</h2>

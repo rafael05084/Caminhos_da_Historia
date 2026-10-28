@@ -11,7 +11,7 @@ let categoriaAtiva = "Todos";
 const coresCategoria = {
     'Patrimônio Histórico':    '#c9a227',
     'Patrimônios Imateriais':  '#8e44ad',
-    'Cultura':                 '#328818',
+    'Cultura':                 '#44db15',
     'Integração Regional':    ' #2874A6'
 };
 

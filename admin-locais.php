@@ -7,24 +7,25 @@ if (!isset($_SESSION['usuario']) || !in_array($_SESSION['nivel'], ['administrado
     exit;
 }
 
-$pastaUploads = "uploads/locais/";
-if (!is_dir($pastaUploads)) {
-    mkdir($pastaUploads, 0755, true);
+$pastaFisica = "uploads/locais/";
+$pastaBanco = "uploads/locais/";
+if (!is_dir($pastaFisica)) {
+    mkdir($pastaFisica, 0755, true);
 }
 
 $extensoesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
 
-function salvarImagem($campo, $pasta, $extensoesPermitidas) {
+function salvarImagem($campo, $pastaFisica, $pastaBanco, $extensoesPermitidas) {
     if (empty($_FILES[$campo]['name'])) return null;
 
     $ext = strtolower(pathinfo($_FILES[$campo]['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, $extensoesPermitidas)) return null;
 
     $nomeArquivo = uniqid('local_') . '.' . $ext;
-    $caminhoDestino = $pasta . $nomeArquivo;
+    $caminhoFisico = $pastaFisica . $nomeArquivo;
 
-    if (move_uploaded_file($_FILES[$campo]['tmp_name'], $caminhoDestino)) {
-        return $caminhoDestino;
+    if (move_uploaded_file($_FILES[$campo]['tmp_name'], $caminhoFisico)) {
+        return $pastaBanco . $nomeArquivo;
     }
     return null;
 }
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     $curiosidades = $_POST['curiosidades'];
     $importancia = $_POST['importancia'];
 
-    $novaImagem = salvarImagem('imagem_upload', $pastaUploads, $extensoesPermitidas);
+    $novaImagem = salvarImagem('imagem_upload', $pastaFisica, $pastaBanco, $extensoesPermitidas);
 
     if (!empty($_POST['id'])) {
         // edição
@@ -85,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     $periodo = $_POST['periodo'];
     $legenda = $_POST['legenda'];
 
-    $imagem = salvarImagem('imagem_timeline', $pastaUploads, $extensoesPermitidas);
+    $imagem = salvarImagem('imagem_timeline', $pastaFisica, $pastaBanco, $extensoesPermitidas);
 
     if ($imagem) {
         $sql = "INSERT INTO locais_imagens (local_id, periodo, imagem, legenda)
@@ -131,7 +132,7 @@ if (isset($_GET['editar'])) {
     }
 }
 
-$categorias = ['Patrimônio Histórico', 'Patrimônios Imateriais', 'Cultura', 'Integração Regional'];
+$categorias = ['Patrimônio Histórico', 'Patrimônio Religioso', 'Patrimônios Imateriais', 'Cultura', 'Tradição Gaúcha', 'Turismo', 'Integração Regional'];
 
 $sqlLocais = "SELECT * FROM locais ORDER BY nome ASC";
 $resLocais = mysqli_query($conexao, $sqlLocais);
@@ -145,7 +146,7 @@ $resLocais = mysqli_query($conexao, $sqlLocais);
     <title>Administrar Locais - Caminhos da História</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/admin.css?v=1">
+    <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
 </head>
 <body class="admin-page">
 

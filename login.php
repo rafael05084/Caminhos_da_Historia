@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // verifica o nível antes de redirecionar
         switch ($dados['nivel']) {
             case 'administrador':
-                header("Location:admin/admin.php");
+                header("Location:admin.php");
                 break;
             case 'moderador':
                 header("Location:admin-causos.php");
